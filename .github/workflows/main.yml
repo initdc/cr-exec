@@ -1,11 +1,18 @@
 name: Ruby
 
 on:
+  workflow_dispatch:
   push:
     branches:
-      - main
+      - master
+      - dev
+
 
   pull_request:
+
+concurrency: 
+  group: ${{ github.sha }}
+  cancel-in-progress: true
 
 jobs:
   build:
@@ -14,7 +21,8 @@ jobs:
     strategy:
       matrix:
         ruby:
-          - '3.2.2'
+          - '2.7.0'
+          - '3.0.0'
 
     steps:
     - uses: actions/checkout@v3
