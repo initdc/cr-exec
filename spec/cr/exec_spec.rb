@@ -47,6 +47,14 @@ RSpec.describe Cr::Exec do
     expect(Cr::Exec.each_line("ls spec", chomp: true)).to eq ["cr", "spec_helper.rb"]
   end
 
+  it "each_line with options" do
+    expect(Cr::Exec.each_line("ls", chomp: true, chdir: "spec")).to eq ["cr", "spec_helper.rb"]
+  end
+
+  it "each_line with ENV" do
+    expect(Cr::Exec.each_line({ "FOO" => "bar" }, "echo $FOO", chomp: true)).to eq ["bar"]
+  end
+
   it "always return bool" do
     p system("unamea")
     expect(Cr::Exec.system?("unamea")).to eq false

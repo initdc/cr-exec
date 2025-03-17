@@ -30,13 +30,12 @@ module Cr
     end
 
     def each_line(*args, chomp: false, **options, &block)
-      command = args.join(" ")
       if block
-        IO.popen(command, options) do |pipe|
+        IO.popen(*args, **options) do |pipe|
           pipe.each_line(chomp: chomp, &block)
         end
       else
-        IO.popen(command, options).readlines(chomp: chomp)
+        IO.popen(*args, **options).readlines(chomp: chomp)
       end
     end
 
