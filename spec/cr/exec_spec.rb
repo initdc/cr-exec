@@ -55,6 +55,30 @@ RSpec.describe Cr::Exec do
     expect(Cr::Exec.each_line({ "FOO" => "bar" }, "echo $FOO", chomp: true)).to eq ["bar"]
   end
 
+  it "answer no need input" do
+    expect(Cr::Exec.answer("uname", "r+")).to eq "Linux\n"
+  end
+
+  it "answer with cmd" do
+    expect(Cr::Exec.answer("bash", "r+", input: "uname")).to eq "Linux\n"
+  end
+
+  it "answer with cmd array" do
+    expect(Cr::Exec.answer("bash", "r+", input: %w[uname uname])).to eq "Linux\nLinux\n"
+  end
+
+  it "answer with space included cmd array" do
+    expect(Cr::Exec.answer("bash", "r+", input: ["ls spec", "uname"])).to eq "cr\nspec_helper.rb\nLinux\n"
+  end
+
+  it "answer with ruby embbed cmd" do
+    expect(Cr::Exec.answer("bash", "r+", input: "echo #{Array(1..5)}")).to eq "[1, 2, 3, 4, 5]\n"
+  end
+
+  it "answer with ruby array" do
+    expect(Cr::Exec.answer("bash", "r+", input: Array.new(2, "uname"))).to eq "Linux\nLinux\n"
+  end
+
   it "always return bool" do
     p system("unamea")
     expect(Cr::Exec.system?("unamea")).to eq false

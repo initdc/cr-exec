@@ -39,6 +39,18 @@ module Cr
       end
     end
 
+    def answer(*args, input: nil, **options)
+      IO.popen(*args, **options) do |pipe|
+        if input.is_a? Array
+          input.each { |cmd| pipe.puts(cmd) }
+        else
+           pipe.puts(input)
+        end
+        pipe.close_write
+        pipe.read
+      end
+    end
+
     def system?(...)
       system(...) ? true : false
     end
