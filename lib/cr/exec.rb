@@ -21,9 +21,8 @@ module Cr
       127
     end
 
-    def output(*args, chomp: true)
-      command = args.join(" ")
-      output = `#{command}`
+    def output(*args, chomp: true, **options)
+      output = IO.popen(*args, **options).read
       return output.chomp if chomp
 
       output
