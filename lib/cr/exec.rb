@@ -43,7 +43,7 @@ module Cr
         if input.is_a? Array
           input.each { |cmd| pipe.puts(cmd) }
         else
-           pipe.puts(input)
+          pipe.puts(input)
         end
         pipe.close_write
         pipe.read
