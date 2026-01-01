@@ -2,6 +2,6 @@
 
 module Cr
   module Exec
-    VERSION = "0.2.1"
+    VERSION = "0.2.2"
   end
 end
