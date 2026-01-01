@@ -83,4 +83,9 @@ RSpec.describe Cr::Exec do
     p system("unamea")
     expect(Cr::Exec.system?("unamea")).to eq false
   end
+
+  it "system! raise" do
+    system("unamea")
+    expect { Cr::Exec.system!("unamea") }.to raise_error(Errno::ENOENT)
+  end
 end

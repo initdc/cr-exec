@@ -29,7 +29,7 @@ module Cr
     end
 
     def each_line(*args, chomp: false, **options, &block)
-      if block
+      if block_given?
         IO.popen(*args, **options) do |pipe|
           pipe.each_line(chomp: chomp, &block)
         end
@@ -40,9 +40,9 @@ module Cr
 
     def answer(*args, input: nil, **options)
       IO.popen(*args, **options) do |pipe|
-        if input.is_a? Array
+        if input.is_a?(Array)
           input.each { |cmd| pipe.puts(cmd) }
-        else
+        elsif input != nil
           pipe.puts(input)
         end
         pipe.close_write
@@ -52,6 +52,10 @@ module Cr
 
     def system?(...)
       system(...) ? true : false
+    end
+
+    def system!(*args, **options)
+      system(*args, exception: true, **options)
     end
   end
 end
